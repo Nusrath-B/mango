@@ -1,0 +1,138 @@
+import numpy as np
+import pandas as pd
+df=pd.read_csv(r"C:\Users\jpy\Downloads\Iris.csv")
+df.head()
+
+
+print(df.shape)
+print(df.info())
+
+x=df[['SepalLengthCm']]
+y=df['SepalWidthCm']
+from sklearn.model_selection import train_test_split
+x_train,x_test,y_train,y_test=train_test_split(x,y,test_size=0.2)
+
+
+from sklearn.linear_model import LinearRegression
+model=LinearRegression()
+model.fit(x_train,y_train)
+
+
+predictions=model.predict(x_test)
+import sklearn.metrics as sm
+print("Mean squared error=",round(sm.mean_squared_error(y_test,predictions),2))
+print("R2 score=",round(sm.r2_score(y_test,predictions),2))
+
+KNN
+
+x=df.iloc[:,:-1].values
+y=df.iloc[:,-1].values
+
+from sklearn.neighbors import KNeighborsClassifier
+knn=KNeighborsClassifier(n_neighbors=5,metric="euclidean")
+knn.fit(x_train,y_train)
+predictions=knn.predict(x_test)
+
+from sklearn.metrics import confusion_matrix,accuracy_score
+print(confusion_matrix(y_test,predictions))
+print(accuracy_score(y_test,predictions))
+
+
+DECISION TREE
+
+from sklearn.tree import DecisionTreeClassifier
+classifier=DecisionTreeClassifier(criterion='entropy',random_state=0)
+classifier.fit(x_train,y_train)
+predictions=classifier.predict(x_test)
+
+
+NAIVE BAYES
+
+from sklearn.naive_bayes import GaussianNB
+classifier=GaussianNB()
+classifier.fit(x_train,y_train)
+predictions=classifier.predict(x_test)
+
+
+LOGISTIC REGRESSION
+
+from sklearn.linear_model import LogisticRegression
+classifier=LogisticRegression(random_state=0)
+classifier.fit(x_train,y_train)
+predictions=classifier.predict(x_test)
+
+
+SVM
+
+from sklearn.svm import SVC
+classifier=SVC(kernel='linear')
+classifier.fit(x_train,y_train)
+predictions=classifier.predict(x_test)
+
+
+WORDCLOUD
+
+import matplotlib.pyplot as plt
+from wordcloud import WordCloud
+text="""hi banu how are u,banu replied i'm fine,living in Davangere,Davangere is in karnataka"""
+WC=WordCloud().generate(text)
+plt.imshow(WC)
+plt.axis('off')
+plt.show()
+
+
+Punctuation
+
+Text="""hi banu how are u?,banu replied i'm fine,living in Davangere,Davangere is in karnataka!"""
+import string
+print('list of punctuations=\n\n',string.punctuation)
+S=string.punctuation
+
+Text_Punct="".join(item for item in Text.split()if item not in S)
+print(Text)
+print('-----------text after removing punctuation---------')
+print()
+print(Text_Punct)
+
+
+
+Stopwords
+
+import nltk
+nltk.download('stopwords')
+
+Text="""hi banu how are u?,banu replied i'm fine,living in Davangere,Davangere is in karnataka!"""
+import nltk
+from nltk.corpus import stopwords
+stop_words=nltk.corpus.stopwords.words('english')
+print(stop_words)
+
+Text_stop="".join(item for item in Text.split()if item not in stop_words)
+print(Text)
+print('-----------text after removing stopwords---------')
+print()
+print(Text_stop)
+
+
+Stemming
+
+import nltk
+nltk.download('punkt')
+
+Text="""you look smart,he looks like star,you are looking awsome"""
+import nltk
+from nltk.tokenize import word_tokenize
+from nltk.stem import *
+tokens=word_tokenize(Text)
+print(tokens)
+
+Lemmatization
+
+Text="""you look smart,he looks like star,you are looking awsome"""
+import nltk
+from nltk.tokenize import word_tokenize
+nltk.download('wordnet')
+nltk.download('omw-1.4')
+nltk.download('punkt')
+tokens=word_tokenize(Text)
+print(tokens)
